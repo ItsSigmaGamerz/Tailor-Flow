@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tailor Flow — Female Measurement Record</title>
+<link rel="icon" href="https://user57931.na.imgto.link/public/20261119/29771b6e8271c30f58aa79dc-image.avif">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C62828; --red-dark:#9E1B1B; --red-soft:#FDECEA; --red-ring:rgba(198,40,40,.15);
+  --paper:#FFF7F8; --ink:#262020; --muted:#8A7B7B; --line:#EFD9D9; --line-dash:#E8C9C9;
+  --green:#2E7D32; --green-soft:#F1F8F1; --amber:#B26A00; --amber-soft:#FFF4E5;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{font-family:'Manrope',system-ui,sans-serif; background:#FBF3F3; color:var(--ink); font-size:15px}
+.hidden{display:none!important}
+button{font-family:inherit}
+svg.ic{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; vertical-align:-2px}
+
+.topbar{position:sticky; top:0; z-index:50; display:flex; justify-content:space-between; align-items:center;
+  background:#fff; border-bottom:1px solid var(--line); padding:10px 22px; box-shadow:0 2px 10px rgba(158,27,27,.06)}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; letter-spacing:.02em}
+.brand .emblem{width:26px; height:26px; object-fit:contain}
+.brand em{font-style:normal; color:var(--red)}
+.navlinks{display:flex; gap:6px}
+.navlinks a{display:flex; align-items:center; gap:7px; text-decoration:none; color:var(--muted); font-weight:700;
+  font-size:13.5px; padding:8px 15px; border-radius:999px; transition:.15s}
+.navlinks a:hover{background:var(--red-soft); color:var(--red-dark)}
+.navlinks a.active{background:var(--red); color:#fff; box-shadow:0 3px 10px rgba(198,40,40,.35)}
+.navlinks .pill{background:#fff; color:var(--red); border-radius:999px; font-size:11px; padding:1px 7px; font-weight:800}
+.navlinks a.active .pill{background:rgba(255,255,255,.25); color:#fff}
+
+.page{max-width:1180px; margin:0 auto; padding:26px 20px 60px; position:relative}
+.page-head{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:18px}
+.page-head h1{font-size:26px; font-weight:800}
+.page-head h1 span{color:var(--red)}
+.page-head p{color:var(--muted); font-size:13px; margin-top:3px}
+.order-badge{display:flex; align-items:center; gap:12px; background:#fff; border:1.5px dashed var(--red);
+  border-radius:14px; padding:9px 16px; box-shadow:0 3px 12px rgba(198,40,40,.08)}
+.order-badge .lbl{font-size:10.5px; font-weight:800; letter-spacing:.14em; color:var(--muted)}
+.order-badge .no{font-size:24px; font-weight:800; color:var(--red); letter-spacing:.14em; font-variant-numeric:tabular-nums}
+.iconbtn{border:1px solid var(--line); background:#fff; border-radius:8px; width:30px; height:30px; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; color:var(--red); transition:.15s}
+.iconbtn:hover{background:var(--red-soft); border-color:var(--red)}
+
+/* MAIN FLOATING LOGO - LEFT side, NO tilt, NO shadow, positioned lower to avoid title */
+.main-logo-float{
+  position:absolute; top:60px; left:-20px; z-index:40;
+  width:100px; height:100px; pointer-events:none;
+}
+.main-logo-float img{width:100%; height:100%; object-fit:contain; display:block}
+
+.sheet{background:var(--paper); border:1px solid var(--line); border-radius:18px; padding:24px;
+  box-shadow:0 10px 34px rgba(158,27,27,.10); display:grid; grid-template-columns:1fr 320px; gap:26px}
+.sheet-head{grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; gap:14px;
+  border-bottom:2px solid var(--red); padding-bottom:12px}
+.lh{display:flex; align-items:center; gap:11px}
+.lh .emblem{width:44px; height:44px; object-fit:contain; flex:none}
+.lh-name{font-size:19px; font-weight:800; letter-spacing:.08em}
+.lh-sub{font-size:9.5px; font-weight:700; letter-spacing:.34em; color:var(--muted)}
+.lh-no{font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.1em}
+.lh-no b{display:block; font-size:20px; color:var(--red); letter-spacing:.12em; font-variant-numeric:tabular-nums}
+.sheet aside{border-left:1px dashed var(--line-dash); padding-left:22px; display:flex; flex-direction:column; gap:16px}
+
+/* MANNEQUIN - fills full height */
+.croqui-wrap{flex:1; display:flex; align-items:stretch; justify-content:center; min-height:650px; position:relative}
+.croqui-wrap img{
+  display:none; 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; 
+  object-position:center top;
+  position:absolute;
+  top:0; left:0; right:0; bottom:0;
+}
+.croqui-wrap img.ok{display:block}
+.croqui-wrap img.ok + svg{display:none}
+.croqui-wrap svg{width:100%; height:100%; color:#DFA8B0}
+
+.block{margin-bottom:20px}
+.block>h3{font-size:11.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--red-dark);
+  display:flex; align-items:center; gap:8px; margin-bottom:11px; flex-wrap:wrap}
+.block>h3::before{content:""; width:4px; height:14px; background:var(--red); border-radius:2px}
+.block>h3 small{color:var(--muted); font-weight:600; letter-spacing:0; text-transform:none; font-size:11.5px}
+.fields{display:grid; grid-template-columns:repeat(3,1fr); gap:12px 14px}
+.field label{display:block; font-size:12px; font-weight:700; color:#6E5F5F; margin-bottom:5px}
+.field label b{color:var(--red)}
+input[type=text],input[type=date],input[type=email],input[type=tel]{
+  width:100%; border:1px solid var(--line); background:#fff; border-radius:10px; padding:9px 11px;
+  font-family:inherit; font-size:14px; color:var(--ink); transition:.15s; outline:none}
+input:focus{border-color:var(--red); box-shadow:0 0 0 3px var(--red-ring)}
+.msg{display:none; color:var(--red); font-size:11.5px; font-weight:600; margin-top:4px}
+.field.error .msg{display:block}
+.field.error input{border-color:var(--red); background:#FFF3F2; box-shadow:0 0 0 3px var(--red-ring)}
+input.bad{border-color:var(--red)!important; background:#FFF3F2!important; box-shadow:0 0 0 3px var(--red-ring)!important}
+.mgroups{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+.mgroup{background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 13px}
+.mgroup h4{font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--red);
+  padding-bottom:7px; margin-bottom:5px; border-bottom:1px solid var(--line)}
+.mrow{display:grid; grid-template-columns:1fr 82px; align-items:center; gap:9px; padding:4.5px 0; border-bottom:1px dashed #F5E4E4}
+.mrow:last-child{border-bottom:none}
+.mrow label{font-size:12.5px; font-weight:600; color:#5F5252}
+.mrow input{text-align:center; padding:6px 6px; font-size:13.5px; font-variant-numeric:tabular-nums}
+.billing{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+.billing input{font-size:17px; font-weight:800; font-variant-numeric:tabular-nums}
+#balance{background:var(--red-soft); border-color:#E7B7B7; color:var(--red-dark); cursor:not-allowed}
+.actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+.btn{border:none; cursor:pointer; border-radius:12px; padding:11px 20px; font-weight:800; font-size:14px; transition:.15s;
+  display:inline-flex; align-items:center; gap:8px}
+.btn.primary{background:var(--red); color:#fff; box-shadow:0 5px 16px rgba(198,40,40,.35)}
+.btn.primary:hover{background:var(--red-dark)}
+.btn.ghost{background:#fff; border:1.5px solid var(--line); color:#5F5252}
+.btn.ghost:hover{border-color:var(--red); color:var(--red)}
+.btn.green{background:var(--green); color:#fff; box-shadow:0 5px 16px rgba(46,125,50,.3)}
+.btn.green:hover{background:#1B5E20}
+.drafthint{font-size:11.5px; color:var(--muted); font-weight:600; align-self:center}
+
+.reg-head{display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap}
+.search{position:relative; flex:1; max-width:420px}
+.search svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; stroke:var(--muted); fill:none; stroke-width:2}
+.search input{padding-left:36px}
+.chips{display:flex; gap:8px; flex-wrap:wrap}
+.chip{background:#fff; border:1px solid var(--line); border-radius:999px; padding:6px 13px; font-size:12.5px; font-weight:700; color:var(--muted)}
+.chip b{color:var(--red)} .chip.g b{color:var(--green)}
+.table-card{background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden; margin-top:20px; box-shadow:0 4px 18px rgba(158,27,27,.06)}
+.table-card header{display:flex; justify-content:space-between; align-items:center; padding:13px 18px;
+  background:linear-gradient(#fff,#FFF6F6); border-bottom:1px solid var(--line)}
+.table-card h2{font-size:15.5px; font-weight:800; display:flex; align-items:center; gap:8px}
+.dot{width:9px; height:9px; border-radius:50%}
+.dot.red{background:var(--red); box-shadow:0 0 0 3px var(--red-soft)}
+.dot.green{background:var(--green); box-shadow:0 0 0 3px var(--green-soft)}
+.table-card header span{font-size:12px; color:var(--muted); font-weight:700}
+.table-wrap{overflow-x:auto}
+table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:780px}
+th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.09em; color:#9B8C8C;
+  padding:10px 15px; background:#FDF3F3; border-bottom:1px solid var(--line)}
+td{padding:11px 15px; border-bottom:1px solid #F7EAEA; vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#FFF8F8}
+.ono{font-weight:800; color:var(--red-dark); letter-spacing:.06em; font-variant-numeric:tabular-nums}
+.sub{color:var(--muted); font-size:12px}
+.due{font-size:11px; font-weight:800; padding:3px 9px; border-radius:999px; margin-left:7px; white-space:nowrap}
+.due.over{background:var(--red-soft); color:var(--red)} .due.soon{background:var(--amber-soft); color:var(--amber)} .due.ok{background:#F4F4F4; color:#777}
+.acts{white-space:nowrap; display:flex; gap:7px}
+.ibtn{border:1px solid var(--line); background:#fff; border-radius:8px; padding:5px 11px; cursor:pointer;
+  font-size:12px; font-weight:800; color:#5C5050; transition:.15s}
+.ibtn.view:hover{border-color:var(--red); color:var(--red); background:var(--red-soft)}
+.ibtn.complete{border-color:#BFE3C0; color:var(--green); background:var(--green-soft)}
+.ibtn.complete:hover{background:var(--green); color:#fff}
+.ibtn.del:hover{border-color:var(--red); color:var(--red); background:var(--red-soft)}
+.empty td{text-align:center; color:var(--muted); padding:26px; font-weight:600}
+.empty a{color:var(--red); font-weight:800}
+
+.modal{position:fixed; inset:0; z-index:100; background:rgba(38,20,20,.5); backdrop-filter:blur(3px);
+  display:none; align-items:flex-start; justify-content:center; padding:26px 16px; overflow:auto}
+.modal.open{display:flex}
+.modal-card{background:var(--paper); border-radius:18px; max-width:880px; width:100%; padding:28px;
+  box-shadow:0 24px 70px rgba(0,0,0,.35); position:relative}
+.modal-close{position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:50%; border:1px solid var(--line);
+  background:#fff; cursor:pointer; color:var(--muted); display:flex; align-items:center; justify-content:center}
+.modal-close:hover{color:var(--red); border-color:var(--red)}
+.mh{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; border-bottom:2px solid var(--red); padding-bottom:12px; margin-bottom:16px}
+.mh .brandline{font-size:10.5px; font-weight:800; letter-spacing:.16em; color:var(--muted); text-transform:uppercase}
+.mh h2{font-size:23px; font-weight:800; color:var(--red-dark); letter-spacing:.05em}
+.statuspill{font-size:11.5px; font-weight:800; padding:5px 13px; border-radius:999px; letter-spacing:.06em; text-transform:uppercase}
+.statuspill.active{background:var(--red-soft); color:var(--red)} .statuspill.completed{background:var(--green-soft); color:var(--green)}
+.info-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px 14px; margin-bottom:18px}
+.info-grid div{background:#fff; border:1px solid var(--line); border-radius:10px; padding:8px 11px}
+.info-grid label{display:block; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.info-grid b{font-size:13.5px; word-break:break-word}
+.mvgroup{margin-bottom:14px}
+.mvgroup h5{font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--red); margin-bottom:6px}
+.mvgrid{display:grid; grid-template-columns:1fr 1fr; gap:0 26px}
+.mv{display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed #EED6D6; padding:4.5px 2px; font-size:13px; color:#5F5252}
+.mv b{font-variant-numeric:tabular-nums; color:var(--ink)}
+.billbox{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0 20px}
+.billbox div{background:#fff; border:1px solid var(--line); border-radius:10px; padding:9px 12px; text-align:center}
+.billbox div:last-child{background:var(--red-soft); border-color:#E7B7B7}
+.billbox label{display:block; font-size:10px; font-weight:800; letter-spacing:.12em; color:var(--muted)}
+.billbox b{font-size:17px; font-variant-numeric:tabular-nums}
+.billbox div:last-child b{color:var(--red-dark)}
+.msig{display:flex; justify-content:space-between; gap:40px; margin-top:34px}
+.msig div{flex:1; text-align:center; font-size:11px; color:var(--muted); font-weight:700}
+.msig .line{border-top:1.5px dashed #C9A0A0; margin-bottom:5px}
+.modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:20px; border-top:1px solid var(--line); padding-top:16px; flex-wrap:wrap}
+
+#toast{position:fixed; bottom:26px; left:50%; transform:translate(-50%,16px); z-index:200; background:#262020; color:#fff;
+  padding:11px 22px; border-radius:999px; font-weight:700; font-size:13.5px; box-shadow:0 10px 30px rgba(0,0,0,.3);
+  opacity:0; pointer-events:none; transition:.25s}
+#toast.show{opacity:1; transform:translate(-50%,0)}
+footer{text-align:center; padding:22px; color:var(--muted); font-size:12px; font-weight:600}
+footer b{color:var(--red)}
+
+@media (max-width:940px){
+  .sheet{grid-template-columns:1fr}
+  .sheet aside{border-left:none; border-top:1px dashed var(--line-dash); padding-left:0; padding-top:18px}
+  .croqui-wrap{min-height:400px}
+  .mgroups{grid-template-columns:1fr 1fr} .fields{grid-template-columns:1fr 1fr} .info-grid{grid-template-columns:1fr 1fr}
+  .main-logo-float{width:80px; height:80px; left:0; top:40px}
+}
+@media (max-width:600px){
+  .mgroups,.fields,.billing,.mvgrid,.info-grid{grid-template-columns:1fr}
+  .page-head{flex-direction:column; align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="brand">
+    <!-- Colored Logo for Top Bar (White BG) -->
+    <img class="emblem" src="https://user57931.na.imgto.link/public/20261119/9f28a353cd81445a60a8f6f1-gemini-generated-image-g6vj81g6vj81g6vj.avif" alt="">
+    Tailor&nbsp;<em>Flow</em>
+  </div>
+  <div class="navlinks">
+    <a href="#/form" id="navForm">Measurement Form</a>
+    <a href="#/registry" id="navReg">Order Registry <span class="pill" id="navCount">0</span></a>
+  </div>
+</nav>
+
+<!-- ============ PAGE 1 : MEASUREMENT FORM ============ -->
+<section class="page" id="page-form">
+
+  <!-- Floating main logo - LEFT side, NO tilt, NO shadow -->
+  <div class="main-logo-float">
+    <!-- Plain/White Logo for Page Background -->
+    
+  </div>
+
+  <div class="page-head">
+    <div>
+      <h1>New <span>Measurement</span> Record</h1>
+    </div>
+    <div class="order-badge">
+      <div><div class="lbl">ORDER No.</div><div class="no" id="orderNoBadge">----</div></div>
+      <button type="button" class="iconbtn" id="regenNo" title="Generate new order number">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 5v6h-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <form id="mForm" novalidate>
+    <div class="sheet">
+      <div class="sheet-head">
+        <div class="lh">
+          <!-- Colored Logo for Form Header (White/Paper BG) -->
+          <img class="emblem" src="https://user57931.na.imgto.link/public/20261119/5a182c43b47cfc7e2a0ac3a2-image.avif" alt="">
+          <div><div class="lh-name">SAPTHA DESIGN</div><div class="lh-sub">PERUMBAVOOR</div></div>
+        </div>
+        <div class="lh-no">No.<b id="sheetNo">----</b></div>
+      </div>
+
+      <div>
+        <div class="block">
+          <h3>Order & Customer</h3>
+          <div class="fields">
+            <div class="field"><label>Order Date</label><input type="date" id="orderDate"><small class="msg"></small></div>
+            <div class="field"><label>Due Date <b>*</b></label><input type="date" id="dueDate"><small class="msg"></small></div>
+            <div class="field"><label>Customer Name <b>*</b></label><input type="text" id="name" autocomplete="off"><small class="msg"></small></div>
+            <div class="field"><label>Customer Phone No. <b>*</b></label><input type="tel" id="phone" class="phone" placeholder="10-digit number" autocomplete="off"><small class="msg"></small></div>
+            <div class="field"><label>Email <span class="sub">(optional)</span></label><input type="email" id="email" placeholder="name@mail.com" autocomplete="off"><small class="msg"></small></div>
+            <div class="field"><label>Item / Garment</label><input type="text" id="item" autocomplete="off"><small class="msg"></small></div>
+            <div class="field"><label>Designer</label><input type="text" id="designer" autocomplete="off"><small class="msg"></small></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Measurements</h3>
+          <div class="mgroups" id="measGroups"></div>
+        </div>
+
+        <div class="block">
+          <h3>Billing</h3>
+          <div class="billing">
+            <div class="field"><label>TOTAL</label><input type="text" id="total" class="dec" inputmode="decimal" placeholder="0.00"><small class="msg"></small></div>
+            <div class="field"><label>DEPOSIT</label><input type="text" id="deposit" class="dec" inputmode="decimal" placeholder="0.00"><small class="msg"></small></div>
+            <div class="field"><label>BALANCE <span class="sub">(auto)</span></label><input type="text" id="balance" readonly tabindex="-1" placeholder="0.00"><small class="msg"></small></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">Save Order</button>
+          <button type="button" class="btn ghost" id="printFormBtn">Print Form</button>
+          <button type="button" class="btn ghost" id="printBillBtn">Print Bill (A4)</button>
+          <button type="button" class="btn ghost" id="printReceiptBtn" title="For 80mm thermal bill printers">Print Bill (80mm)</button>
+          <button type="button" class="btn ghost" id="resetBtn">Clear / New Form</button>
+          <span class="drafthint" id="draftHint"></span>
+        </div>
+      </div>
+
+      <aside>
+        <div class="croqui-wrap">
+          <img id="croquiImg" src="https://user57931.na.imgto.link/public/20261119/df0aa875d0f0ab45e2a4d130-image.avif" alt="Reference figure">
+          <svg viewBox="0 0 240 660" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M120 14 C105 14 96 27 96 45 C96 60 101 74 109 84 C114 90 117 96 118 102 L122 102 C123 96 126 90 131 84 C139 74 144 60 144 45 C144 27 135 14 120 14 Z"/>
+            <path d="M114 100 C114 108 113 114 111 118 M126 100 C126 108 127 114 129 118"/>
+            <path d="M111 118 C98 121 88 126 84 133 M129 118 C142 121 152 126 156 133"/>
+            <path d="M106 130 C112 132 116 132 119 131 M134 130 C128 132 124 132 121 131"/>
+            <path d="M84 133 C80 152 80 170 84 188 C79 206 77 222 81 240 C85 256 89 266 92 276"/>
+            <path d="M156 133 C160 152 160 170 156 188 C161 206 163 222 159 240 C155 256 151 266 148 276"/>
+          </svg>
+        </div>
+      </aside>
+    </div>
+  </form>
+</section>
+
+<!-- ============ PAGE 2 : ORDER REGISTRY ============ -->
+<section class="page hidden" id="page-registry">
+  <div class="page-head reg-head">
+    <div>
+      <h1>Order <span>Registry</span></h1>
+      <p>Track, search and complete tailoring orders.</p>
+    </div>
+    <div class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="searchInput" placeholder="Search order no, name, phone, email...">
+    </div>
+  </div>
+  <div class="chips">
+    <span class="chip">Active: <b id="chipActive">0</b></span>
+    <span class="chip g">Completed: <b id="chipDone">0</b></span>
+    <span class="chip">Overdue: <b id="chipOver">0</b></span>
+  </div>
+
+  <div class="table-card">
+    <header><h2><span class="dot red"></span>Active Orders</h2><span id="activeCount"></span></header>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Order No</th><th>Customer</th><th>Phone</th><th>Due Date</th><th>Total</th><th>Balance</th><th>Actions</th></tr></thead>
+        <tbody id="activeBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <header><h2><span class="dot green"></span>Completed Orders</h2><span id="completedCount"></span></header>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Order No</th><th>Customer</th><th>Phone</th><th>Completed On</th><th>Total</th><th>Actions</th></tr></thead>
+        <tbody id="completedBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer><b>Tailor Flow</b> · local-first measurement registry · all data stays in this browser</footer>
+
+<!-- ============ VIEW MODAL ============ -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" title="Close">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div id="modalBody"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="modalPrintForm">Print Form</button>
+      <button class="btn ghost" id="modalPrintBill">Print Bill (A4)</button>
+      <button class="btn ghost" id="modalPrintReceipt">Print Bill (80mm)</button>
+      <button class="btn green" id="modalComplete">Complete Order</button>
+      <button class="btn primary" id="modalCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================= DATA ================= */
+const STORE='tailorflow.orders.v1';
+const DRAFT='tailorflow.draft.v1';
+let orders=(()=>{try{return JSON.parse(localStorage.getItem(STORE))||[]}catch(e){return[]}})();
+const save=()=>{try{localStorage.setItem(STORE,JSON.stringify(orders))}catch(e){toast('Could not save locally')}};
+
+const MEAS_GROUPS=[
+ {title:'Body / Blouse', keys:[['fl','FL'],['chest','Chest'],['breast','Breast'],['shoulder','Shoulder'],['shape','Shape'],['stomach','Stomach'],['hip','Hip'],['shBreast','Sh - Breast'],['shShape','Sh - Shape'],['shStomach','Sh - Stomach'],['shHip','Sh - Hip'],['underBreast','Under Breast'],['cupWidth','Cup Width'],['armHole','Arm Hole']]},
+ {title:'Lengths & Neck', keys:[['slL','SL - L'],['slR','SL - R'],['sliteL','Slite L'],['sliteR','Slite R'],['frontNeck','Front Neck'],['backNeck','Back Neck'],['yokeL','Yoke L'],['blouseL','Blouse L'],['tuckPoint','Tuck Point']]},
+ {title:'Bottom / Legs', keys:[['bottomL','Bottom L'],['bottomR','Bottom R'],['thighL','Thigh L'],['thighR','Thigh R'],['kneeL','Knees L'],['kneeR','Knee R']]}
+];
+
+/* Image URLs */
+const LOGO_COLORED='https://user57931.na.imgto.link/public/20261119/ba25b2924210980de9107c68-image.avif';
+const LOGO_PLAIN='https://user57931.na.imgto.link/public/20261119/9f28a353cd81445a60a8f6f1-gemini-generated-image-g6vj81g6vj81g6vj.avif';
+
+/* emblem helper for print docs (uses colored logo for white paper) */
+const emblem=px=>`<img src="${LOGO_PLAIN}" style="width:${px}px;height:${px}px;object-fit:contain;flex:none;display:block;" alt="">`;
+
+/* ================= HELPERS ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const fmtDate=iso=>{if(!iso)return '—';const d=new Date(iso+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})};
+const fmtDT=ts=>{const d=new Date(ts);return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+', '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})};
+const money=v=>{const n=parseFloat(v);return isNaN(n)?'0.00':n.toFixed(2)};
+const genNo=()=>{let n;do{n=String(Math.floor(1000+Math.random()*9000))}while(orders.some(o=>o.no===n));return n};
+let tId;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tId);tId=setTimeout(()=>t.classList.remove('show'),2600)};
+
+function sanitizeDec(el){let v=el.value.replace(/[^0-9.]/g,'');const i=v.indexOf('.');if(i>-1)v=v.slice(0,i+1)+v.slice(i+1).replace(/\./g,'');el.value=v}
+function normalizeDec(el){let v=el.value;if(!v)return;if(v.startsWith('.'))v='0'+v;if(v.endsWith('.'))v=v.slice(0,-1);el.value=v}
+function sanitizePhone(el){const plus=el.value.startsWith('+');el.value=(plus?'+':'')+el.value.replace(/[^0-9]/g,'').slice(0,15)}
+function clearErr(el){el.classList.remove('bad');const f=el.closest('.field');if(f){f.classList.remove('error');const m=f.querySelector('.msg');if(m)m.textContent=''}}
+function setErr(el,msg){const f=el.closest('.field');if(f){f.classList.add('error');f.querySelector('.msg').textContent=msg}else el.classList.add('bad')}
+
+$('#measGroups').innerHTML=MEAS_GROUPS.map(g=>`
+  <div class="mgroup"><h4>${g.title}</h4>${g.keys.map(([k,l])=>`
+    <div class="mrow"><label for="m_${k}">${l}</label><input type="text" id="m_${k}" data-key="${k}" class="dec" inputmode="decimal"></div>`).join('')}
+  </div>`).join('');
+
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.classList.contains('dec')){sanitizeDec(t);clearErr(t);if(t.id==='total'||t.id==='deposit')recalcBal()}
+  if(t.classList.contains('phone')){sanitizePhone(t);clearErr(t)}
+  if(['name','email','dueDate','orderDate'].includes(t.id))clearErr(t);
+  if(t.closest && t.closest('#mForm'))queueDraft();
+});
+document.addEventListener('change',e=>{if(e.target.closest && e.target.closest('#mForm'))queueDraft()});
+document.addEventListener('focusout',e=>{if(e.target.classList.contains('dec'))normalizeDec(e.target)});
+function recalcBal(){const t=parseFloat($('#total').value)||0,d=parseFloat($('#deposit').value)||0;$('#balance').value=Math.round((t-d)*100)/100}
+
+/* ================= DRAFT AUTO-SAVE ================= */
+let dT;
+function queueDraft(){clearTimeout(dT);dT=setTimeout(saveDraft,300)}
+function saveDraft(){
+  try{localStorage.setItem(DRAFT,JSON.stringify(formObject()));$('#draftHint').textContent='Draft saved '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}catch(e){}
+}
+function loadDraft(){try{return JSON.parse(localStorage.getItem(DRAFT))}catch(e){return null}}
+function clearDraft(){try{localStorage.removeItem(DRAFT)}catch(e){}$('#draftHint').textContent=''}
+function draftHasContent(d){
+  if(!d)return false;
+  return !!(d.name||d.phone||d.item||d.designer||d.email||d.total||d.deposit||d.dueDate||
+    (d.meas&&Object.values(d.meas).some(v=>v)));
+}
+function restoreDraft(d){
+  $('#orderDate').value=d.orderDate||todayISO();
+  $('#dueDate').value=d.dueDate||'';
+  $('#name').value=d.name||''; $('#phone').value=d.phone||''; $('#email').value=d.email||'';
+  $('#item').value=d.item||''; $('#designer').value=d.designer||'';
+  $('#total').value=d.total||''; $('#deposit').value=d.deposit||'';
+  if(d.meas)Object.entries(d.meas).forEach(([k,v])=>{const el=document.getElementById('m_'+k);if(el)el.value=v||''});
+  recalcBal();
+  setOrderNo(d.no||genNo());
+  $('#draftHint').textContent='Draft restored';
+}
+
+/* ================= FORM ================= */
+function setOrderNo(n){$('#orderNoBadge').textContent=n;$('#sheetNo').textContent=n}
+function resetForm(){
+  $('#mForm').reset();
+  $$('#mForm .field').forEach(f=>f.classList.remove('error'));
+  $$('#mForm input').forEach(i=>i.classList.remove('bad'));
+  $('#orderDate').value=todayISO();
+  $('#balance').value='';
+  setOrderNo(genNo());
+  $('#draftHint').textContent='';
+}
+function formObject(){
+  const meas={};$$('#measGroups .dec').forEach(i=>meas[i.dataset.key]=i.value);
+  const o={no:$('#orderNoBadge').textContent, orderDate:$('#orderDate').value, dueDate:$('#dueDate').value,
+    name:$('#name').value.trim(), phone:$('#phone').value.trim(), email:$('#email').value.trim(),
+    item:$('#item').value.trim(), designer:$('#designer').value.trim(), meas,
+    total:$('#total').value, deposit:$('#deposit').value, balance:$('#balance').value};
+  if(o.balance===''&&(o.total!==''||o.deposit!=='')){recalcBal();o.balance=$('#balance').value}
+  return o;
+}
+$('#regenNo').onclick=()=>{setOrderNo(genNo());saveDraft();toast('New order number generated')};
+$('#resetBtn').onclick=()=>{
+  if(!confirm('Clear the form? All unsaved entries and measurements will be lost.'))return;
+  clearDraft(); resetForm(); toast('Form cleared');
+};
+
+$('#mForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true,firstBad=null;
+  const need=(el,cond,msg)=>{if(cond){ok=false;setErr(el,msg);firstBad=firstBad||el}};
+  need($('#name'),!$('#name').value.trim(),'Customer name is required');
+  const digits=$('#phone').value.replace(/\D/g,'');
+  need($('#phone'),!digits,'Phone number is required');
+  need($('#phone'),digits&&(digits.length<7||digits.length>15),'Enter a valid phone number');
+  need($('#email'),$('#email').value&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('#email').value),'Enter a valid email address');
+  need($('#dueDate'),!$('#dueDate').value,'Due date is required');
+  need($('#orderDate'),!$('#orderDate').value,'Order date is required');
+  $$('#mForm .dec').forEach(el=>{
+    normalizeDec(el);
+    if(el.value!==''&&!/^\d+(\.\d+)?$/.test(el.value)){ok=false;setErr(el,'Numbers only (e.g. 1250.50)');firstBad=firstBad||el}
+  });
+  if(!ok){toast('Please fix the highlighted fields');firstBad&&firstBad.focus();return}
+
+  const o=formObject();
+  o.status='active'; o.createdAt=new Date().toISOString(); o.completedOn=null;
+  orders.push(o); save(); updatePill();
+  const no=o.no;
+  clearDraft(); resetForm();
+  toast(`Order #${no} saved to registry`);
+});
+
+/* ================= PRINT DOCS ================= */
+const A4_CSS='@page{size:A4 portrait;margin:10mm} body{margin:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}';
+const R80_CSS='@page{margin:3mm} body{margin:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}';
+
+const wrapA4=inner=>`<div style="width:165mm;max-width:165mm;margin:0 auto;padding:4mm 2mm;box-sizing:border-box;font-family:'Manrope',Arial,sans-serif;font-size:12.5px;color:#141010;">${inner}</div>`;
+
+const headForm=no=>`
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2.5px solid #C62828;padding-bottom:9px;margin-bottom:14px;">
+    <div style="display:flex;gap:10px;align-items:center;">
+      ${emblem(38)}
+      <div>
+        <div style="font-size:19px;font-weight:800;letter-spacing:1px;">SAPTHA DESIGN</div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:3px;color:#666;">PERUMBAVOOR</div>
+      </div>
+    </div>
+    <div style="text-align:right;font-size:10px;font-weight:800;color:#666;letter-spacing:1px;">ORDER No.
+      <div style="font-size:19px;font-weight:800;color:#C62828;letter-spacing:1px;">${esc(no)}</div>
+    </div>
+  </div>`;
+
+const headBill=no=>`
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:2.5px solid #C62828;padding-bottom:9px;margin-bottom:14px;">
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      ${emblem(38)}
+      <div>
+        <div style="font-size:19px;font-weight:800;letter-spacing:1px;">SAPTHA DESIGN</div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:3px;color:#666;margin-bottom:3px;">PERUMBAVOOR</div>
+        <div style="font-size:9.5px;color:#444;line-height:1.4;max-width:280px;">Beena shopping complex, floor, opposite Boys High School Ground, Perumbavoor, Keralam 683542</div>
+        <div style="font-size:10px;font-weight:700;color:#C62828;margin-top:2px;">Mob : 8113091751</div>
+      </div>
+    </div>
+    <div style="text-align:right;font-size:10px;font-weight:800;color:#666;letter-spacing:1px;">ORDER No.
+      <div style="font-size:19px;font-weight:800;color:#C62828;letter-spacing:1px;">${esc(no)}</div>
+    </div>
+  </div>`;
+
+const metaGrid=pairs=>`
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 24px;margin-bottom:16px;">
+    ${pairs.map(([l,v])=>`
+    <div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted #999;padding:4px 1px;">
+      <span style="font-size:9.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#666;white-space:nowrap;padding-top:2px;">${l}</span>
+      <span style="font-size:12px;font-weight:700;text-align:right;word-break:break-word;">${v||'—'}</span>
+    </div>`).join('')}
+  </div>`;
+const sigBlock=`
+  <div style="display:flex;gap:60px;margin-top:48px;">
+    <div style="flex:1;text-align:center;font-size:10px;font-weight:700;color:#555;border-top:1px solid #999;padding-top:5px;">CUSTOMER SIGNATURE</div>
+    <div style="flex:1;text-align:center;font-size:10px;font-weight:700;color:#555;border-top:1px solid #999;padding-top:5px;">FOR SAPTHA DESIGN</div>
+  </div>`;
+const metaPairs=o=>[['Order Date',fmtDate(o.orderDate)],['Due Date',fmtDate(o.dueDate)],['Customer Name',esc(o.name)],['Phone No.',esc(o.phone)],...(o.email?[['Email',esc(o.email)]]:[]),['Item / Garment',esc(o.item)],['Designer',esc(o.designer)]];
+
+function buildFormDoc(o){
+  return wrapA4(headForm(o.no)+`
+    <div style="text-align:center;font-size:14px;font-weight:800;letter-spacing:4px;color:#C62828;margin-bottom:12px;">MEASUREMENT RECORD</div>`+
+    metaGrid(metaPairs(o))+`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 28px;">
+      ${MEAS_GROUPS.map(g=>`
+      <div style="margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#C62828;border-bottom:1px solid #E3C9C9;padding-bottom:3px;margin-bottom:4px;">${g.title}</div>
+        ${g.keys.map(([k,l])=>`
+        <div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted #bbb;padding:3.5px 1px;font-size:12px;">
+          <span>${l}</span><b style="font-variant-numeric:tabular-nums;">${esc((o.meas&&o.meas[k])||'')}</b>
+        </div>`).join('')}
+      </div>`).join('')}
+    </div>`+sigBlock+`
+    <div style="text-align:center;margin-top:12px;font-size:10px;color:#777;">Order No. ${esc(o.no)} · SAPTHA DESIGN, Perumbavoor</div>`);
+}
+
+function buildBillDoc(o){
+  // FORCED TABLE LAYOUT to prevent collapse
+  const tableStyle='width:100%; table-layout:fixed; border-collapse:collapse; margin:4px 0 10px; border:1px solid #000;';
+  const cellL='border:1px solid #000; background:#F6EDED; padding:9px 12px; font-weight:800; letter-spacing:.5px; width:60%; display:table-cell;';
+  const cellR='border:1px solid #000; padding:9px 12px; text-align:right; font-weight:800; font-variant-numeric:tabular-nums; font-family:Consolas,monospace; font-size:13px; width:40%; display:table-cell;';
+  
+  return wrapA4(headBill(o.no)+`
+    <div style="text-align:center;font-size:14px;font-weight:800;letter-spacing:4px;color:#C62828;margin-bottom:12px;">BILL</div>`+
+    metaGrid(metaPairs(o))+`
+    <table style="${tableStyle}">
+      <colgroup><col style="width:60%"><col style="width:40%"></colgroup>
+      <tbody>
+        <tr><td style="${cellL}">TOTAL</td><td style="${cellR}">${money(o.total)}</td></tr>
+        <tr><td style="${cellL}">DEPOSIT</td><td style="${cellR}">${money(o.deposit)}</td></tr>
+        <tr><td style="${cellL}color:#C62828;">BALANCE</td><td style="${cellR}color:#C62828;">${money(o.balance)}</td></tr>
+      </tbody>
+    </table>`+sigBlock+`
+    <div style="text-align:center;margin-top:12px;font-size:10px;color:#777;">Please carry this bill when coming for trial / delivery. Order No. ${esc(o.no)}</div>`);
+}
+
+function buildReceiptDoc(o){
+  const row=(l,v)=>`<div style="display:flex;justify-content:space-between;gap:8px;padding:1.5px 0;"><span>${l}</span><b style="text-align:right;word-break:break-word;">${v||'—'}</b></div>`;
+  const dash=`<div style="border-top:1px dashed #000;margin:5px 0;"></div>`;
+  return `<div style="width:72mm;margin:0 auto;padding:3mm 1mm;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#000;">
+    <div style="text-align:center;"><img src="${LOGO_PLAIN}" style="width:28px;height:28px;object-fit:contain;"></div>
+    <div style="text-align:center;font-weight:800;font-size:14px;letter-spacing:1px;">SAPTHA DESIGN</div>
+    <div style="text-align:center;font-size:8.5px;letter-spacing:2px;color:#333;">PERUMBAVOOR</div>
+    <div style="text-align:center;font-size:8px;color:#555;margin-top:2px;line-height:1.3;">Beena shopping complex, floor,<br>opposite Boys High School Ground,<br>Perumbavoor, Keralam 683542</div>
+    <div style="text-align:center;font-size:9px;font-weight:700;color:#000;margin-top:2px;">Mob : 8113091751</div>
+    ${dash}
+    <div style="text-align:center;font-weight:800;letter-spacing:3px;">BILL</div>
+    ${dash}
+    ${row('Order No.',esc(o.no))}
+    ${row('Order Date',fmtDate(o.orderDate))}
+    ${row('Due Date',fmtDate(o.dueDate))}
+    ${row('Customer',esc(o.name))}
+    ${row('Phone',esc(o.phone))}
+    ${(o.email?row('Email',esc(o.email)):'')}
+    ${(o.item?row('Item',esc(o.item)):'')}
+    ${(o.designer?row('Designer',esc(o.designer)):'')}
+    ${dash}
+    ${row('TOTAL',money(o.total))}
+    ${row('DEPOSIT',money(o.deposit))}
+    <div style="display:flex;justify-content:space-between;gap:8px;padding:2px 0;font-weight:800;border-top:1px solid #000;border-bottom:3px double #000;margin-top:2px;">
+      <span>BALANCE</span><span>${money(o.balance)}</span>
+    </div>
+    ${dash}
+    <div style="text-align:center;font-size:8.5px;color:#333;">Please carry this bill when coming for trial / delivery.</div>
+    <div style="margin-top:10mm;border-top:1px solid #000;width:40mm;margin-left:auto;text-align:center;font-size:9px;padding-top:2px;">Customer Signature</div>
+  </div>`;
+}
+
+function openPrintWindow(bodyHtml,css,title){
+  const w=window.open('','_blank','width=950,height=750');
+  if(!w){toast('Popup blocked - please allow popups to print');return}
+  w.document.open();
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title}</title><style>${css}</style></head><body>${bodyHtml}</body></html>`);
+  w.document.close();
+  const go=()=>{try{w.focus();w.print()}catch(e){}};
+  if(w.document.readyState==='complete')setTimeout(go,250); else w.onload=()=>setTimeout(go,150);
+}
+function printDoc(kind,o){
+  if(kind==='form')openPrintWindow(buildFormDoc(o),A4_CSS,`Measurement Record #${o.no}`);
+  else if(kind==='bill')openPrintWindow(buildBillDoc(o),A4_CSS,`Bill #${o.no}`);
+  else openPrintWindow(buildReceiptDoc(o),R80_CSS,`Receipt #${o.no}`);
+}
+function guardEmptyBill(o){ if(!o.name&&!o.total&&!o.deposit){ return confirm('The form is empty. Print a blank bill anyway?'); } return true; }
+
+$('#printFormBtn').addEventListener('click',()=>printDoc('form',formObject()));
+$('#printBillBtn').addEventListener('click',()=>{const o=formObject();if(guardEmptyBill(o))printDoc('bill',o)});
+$('#printReceiptBtn').addEventListener('click',()=>{const o=formObject();if(guardEmptyBill(o))printDoc('receipt',o)});
+
+/* ================= REGISTRY ================= */
+function dueBadge(o){
+  if(!o.dueDate)return '';
+  const t=new Date();t.setHours(0,0,0,0);
+  const days=Math.round((new Date(o.dueDate+'T00:00:00')-t)/864e5);
+  if(days<0)return `<span class="due over">Overdue ${-days}d</span>`;
+  if(days===0)return `<span class="due soon">Due today</span>`;
+  if(days<=3)return `<span class="due soon">In ${days}d</span>`;
+  return `<span class="due ok">In ${days}d</span>`;
+}
+function renderRegistry(q=''){
+  const query=q.trim().toLowerCase();
+  const match=o=>!query||[o.no,o.name,o.phone,o.email,o.item,o.designer].some(v=>(v||'').toLowerCase().includes(query));
+  const act=orders.filter(o=>o.status==='active'&&match(o)).sort((a,b)=>(a.dueDate||'').localeCompare(b.dueDate||''));
+  const done=orders.filter(o=>o.status==='completed'&&match(o)).sort((a,b)=>(b.completedOn||'').localeCompare(a.completedOn||''));
+  $('#chipActive').textContent=orders.filter(o=>o.status==='active').length;
+  $('#chipDone').textContent=orders.filter(o=>o.status==='completed').length;
+  const t=new Date();t.setHours(0,0,0,0);
+  $('#chipOver').textContent=orders.filter(o=>o.status==='active'&&o.dueDate&&new Date(o.dueDate+'T00:00:00')<t).length;
+  $('#activeCount').textContent=act.length+(query?` match${act.length===1?'':'es'}`:' orders');
+  $('#completedCount').textContent=done.length+(query?` match${done.length===1?'':'es'}`:' orders');
+
+  $('#activeBody').innerHTML=act.length?act.map(o=>`<tr>
+    <td class="ono">#${esc(o.no)}</td>
+    <td>${esc(o.name)}${o.item?` <span class="sub">· ${esc(o.item)}</span>`:''}</td>
+    <td>${esc(o.phone)}</td>
+    <td>${fmtDate(o.dueDate)}${dueBadge(o)}</td>
+    <td>${money(o.total)}</td><td>${money(o.balance)}</td>
+    <td><div class="acts">
+      <button class="ibtn view" data-act="view" data-no="${o.no}">View</button>
+      <button class="ibtn complete" data-act="complete" data-no="${o.no}">Complete Order</button>
+      <button class="ibtn del" data-act="delete" data-no="${o.no}">Delete</button>
+    </div></td></tr>`).join('')
+    :`<tr class="empty"><td colspan="7">${query?'No matching active orders.':`No active orders — <a href="#/form">create one from the Measurement Form</a>.`}</td></tr>`;
+
+  $('#completedBody').innerHTML=done.length?done.map(o=>`<tr>
+    <td class="ono">#${esc(o.no)}</td>
+    <td>${esc(o.name)}${o.item?` <span class="sub">· ${esc(o.item)}</span>`:''}</td>
+    <td>${esc(o.phone)}</td>
+    <td>${fmtDT(o.completedOn)}</td>
+    <td>${money(o.total)}</td>
+    <td><div class="acts">
+      <button class="ibtn view" data-act="view" data-no="${o.no}">View</button>
+      <button class="ibtn del" data-act="delete" data-no="${o.no}">Delete</button>
+    </div></td></tr>`).join('')
+    :`<tr class="empty"><td colspan="6">${query?'No matching completed orders.':'No completed orders yet.'}</td></tr>`;
+}
+$('#searchInput').addEventListener('input',e=>renderRegistry(e.target.value));
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const no=b.dataset.no, o=orders.find(x=>x.no===no);if(!o)return;
+  if(b.dataset.act==='view')openModal(no);
+  if(b.dataset.act==='complete')completeOrder(no);
+  if(b.dataset.act==='delete'){
+    if(confirm(`Delete order #${no} (${o.name})? This cannot be undone.`)){
+      orders=orders.filter(x=>x.no!==no);save();renderRegistry($('#searchInput').value);updatePill();
+      if($('#modal').dataset.no===no)closeModal();
+      toast(`Order #${no} deleted`);
+    }
+  }
+});
+function completeOrder(no){
+  const o=orders.find(x=>x.no===no);if(!o||o.status==='completed')return;
+  if(!confirm(`Mark order #${no} (${o.name}) as completed?`))return;
+  o.status='completed';o.completedOn=new Date().toISOString();
+  save();renderRegistry($('#searchInput').value);updatePill();
+  if($('#modal').classList.contains('open')&&$('#modal').dataset.no===no)openModal(no);
+  toast(`Order #${no} marked completed`);
+}
+function updatePill(){
+  const n=orders.filter(o=>o.status==='active').length;
+  $('#navCount').textContent=n;$('#navCount').style.display=n?'':'none';
+}
+
+/* ================= MODAL ================= */
+function openModal(no){
+  const o=orders.find(x=>x.no===no);if(!o)return;
+  $('#modal').dataset.no=no;
+  $('#modalBody').innerHTML=`
+    <div class="mh">
+      <div><div class="brandline">Saptha Design · Female Measurement Record</div><h2>ORDER #${esc(o.no)}</h2></div>
+      <span class="statuspill ${o.status}">${o.status}</span>
+    </div>
+    <div class="info-grid">
+      <div><label>Order Date</label><b>${fmtDate(o.orderDate)}</b></div>
+      <div><label>Due Date</label><b>${fmtDate(o.dueDate)}</b></div>
+      <div><label>Customer</label><b>${esc(o.name)}</b></div>
+      <div><label>Phone</label><b>${esc(o.phone)}</b></div>
+      <div><label>Email</label><b>${esc(o.email)||'—'}</b></div>
+      <div><label>Item</label><b>${esc(o.item)||'—'}</b></div>
+      <div><label>Designer</label><b>${esc(o.designer)||'—'}</b></div>
+      ${o.completedOn?`<div><label>Completed On</label><b>${fmtDT(o.completedOn)}</b></div>`:''}
+    </div>
+    ${MEAS_GROUPS.map(g=>`<div class="mvgroup"><h5>${g.title}</h5><div class="mvgrid">
+      ${g.keys.map(([k,l])=>`<div class="mv"><span>${l}</span><b>${o.meas&&o.meas[k]?esc(o.meas[k]):'—'}</b></div>`).join('')}
+    </div></div>`).join('')}
+    <div class="billbox">
+      <div><label>TOTAL</label><b>${money(o.total)}</b></div>
+      <div><label>DEPOSIT</label><b>${money(o.deposit)}</b></div>
+      <div><label>BALANCE</label><b>${money(o.balance)}</b></div>
+    </div>
+    <div class="msig"><div><div class="line"></div>CUSTOMER SIGNATURE</div><div><div class="line"></div>FOR SAPTHA DESIGN</div></div>`;
+  $('#modalComplete').style.display=o.status==='active'?'':'none';
+  $('#modal').classList.add('open');
+}
+const closeModal=()=>{$('#modal').classList.remove('open');$('#modal').dataset.no=''};
+$('#modalClose').onclick=closeModal;$('#modalCloseBtn').onclick=closeModal;
+$('#modalPrintForm').onclick=()=>{const o=orders.find(x=>x.no===$('#modal').dataset.no);if(o)printDoc('form',o)};
+$('#modalPrintBill').onclick=()=>{const o=orders.find(x=>x.no===$('#modal').dataset.no);if(o)printDoc('bill',o)};
+$('#modalPrintReceipt').onclick=()=>{const o=orders.find(x=>x.no===$('#modal').dataset.no);if(o)printDoc('receipt',o)};
+$('#modalComplete').onclick=()=>completeOrder($('#modal').dataset.no);
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ================= ROUTING / INIT ================= */
+function route(){
+  const reg=location.hash==='#/registry';
+  $('#page-form').classList.toggle('hidden',reg);
+  $('#page-registry').classList.toggle('hidden',!reg);
+  $('#navForm').classList.toggle('active',!reg);
+  $('#navReg').classList.toggle('active',reg);
+  if(reg)renderRegistry($('#searchInput').value);
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+
+const ci=$('#croquiImg');
+if(ci.complete&&ci.naturalWidth>0)ci.classList.add('ok');
+ci.onload=()=>ci.classList.add('ok');
+ci.onerror=()=>ci.classList.remove('ok');
+
+const d=loadDraft();
+if(draftHasContent(d)){restoreDraft(d);toast('Draft restored - your unsaved form was recovered')}
+else resetForm();
+updatePill(); route();
+</script>
+</body>
+</html>
