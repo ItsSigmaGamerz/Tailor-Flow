@@ -64,18 +64,19 @@ svg.ic{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; 
 .sheet aside{border-left:1px dashed var(--line-dash); padding-left:22px; display:flex; flex-direction:column; gap:16px}
 
 /* MANNEQUIN - fills full height */
-.croqui-wrap{
-  flex:1; display:flex; align-items:stretch; justify-content:center;
-  min-height:650px; position:relative;
-}
-/* Image visible by default (no more waiting on JS) */
+.croqui-wrap{flex:1; display:flex; align-items:stretch; justify-content:center; min-height:650px; position:relative}
 .croqui-wrap img{
-  width:100%; height:100%; object-fit:contain; object-position:center top;
-  position:absolute; inset:0; display:block;
+  display:block; 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; 
+  object-position:center top;
+  position:absolute;
+  top:0; left:0; right:0; bottom:0;
 }
-.croqui-wrap img{ z-index:1; }
-/* When JS marks the image as failed, hide it so the SVG shows through */
-.croqui-wrap img.failed{ display:none; }
+.croqui-wrap img.ok{display:block}
+.croqui-wrap img.ok + svg{display:block}
+.croqui-wrap svg{width:100%; height:100%; color:#DFA8B0}
 
 .block{margin-bottom:20px}
 .block>h3{font-size:11.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--red-dark);
@@ -290,16 +291,15 @@ footer b{color:var(--red)}
 
       <aside>
         <div class="croqui-wrap">
-  <picture id="croquiPic">
-    <!-- Try AVIF first, then JPG/PNG fallbacks, then the SVG below shows -->
-    <source srcset="https://user57931.na.imgto.link/public/20261119/df0aa875d0f0ab45e2a4d130-image.avif" type="image/avif">
-    <source srcset="https://i.pinimg.com/736x/91/78/3e/91783ef000028e6ec3be11be3cd6f518.jpg" type="image/jpeg">
-    <img id="croquiImg"
-         src="https://i.pinimg.com/736x/91/78/3e/91783ef000028e6ec3be11be3cd6f518.jpg"
-         alt="Reference figure"
-         referrerpolicy="no-referrer"
-         crossorigin="anonymous">
-  </picture>
+          <img id="croquiImg" src="https://user57931.na.imgto.link/public/20261119/df0aa875d0f0ab45e2a4d130-image.avif" alt="Reference figure">
+          <svg viewBox="0 0 240 660" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M120 14 C105 14 96 27 96 45 C96 60 101 74 109 84 C114 90 117 96 118 102 L122 102 C123 96 126 90 131 84 C139 74 144 60 144 45 C144 27 135 14 120 14 Z"/>
+            <path d="M114 100 C114 108 113 114 111 118 M126 100 C126 108 127 114 129 118"/>
+            <path d="M111 118 C98 121 88 126 84 133 M129 118 C142 121 152 126 156 133"/>
+            <path d="M106 130 C112 132 116 132 119 131 M134 130 C128 132 124 132 121 131"/>
+            <path d="M84 133 C80 152 80 170 84 188 C79 206 77 222 81 240 C85 256 89 266 92 276"/>
+            <path d="M156 133 C160 152 160 170 156 188 C161 206 163 222 159 240 C155 256 151 266 148 276"/>
+          </svg>
         </div>
       </aside>
     </div>
@@ -770,20 +770,6 @@ const d=loadDraft();
 if(draftHasContent(d)){restoreDraft(d);toast('Draft restored - your unsaved form was recovered')}
 else resetForm();
 updatePill(); route();
-
-/* Mannequin loader with real failure detection */
-(function(){
-  const img = document.getElementById('croquiImg');
-  if(!img) return;
-  const markFailed = ()=> img.classList.add('failed');
-  // If it errors OR loads with zero size, fall back to SVG
-  img.addEventListener('error', markFailed);
-  img.addEventListener('load', ()=>{
-    if(!img.naturalWidth || !img.naturalHeight) markFailed();
-  });
-  // Safety net: if still not decoded after 6s, show SVG
-  setTimeout(()=>{ if(!img.complete || !img.naturalWidth) markFailed(); }, 6000);
-})();
 </script>
 </body>
 </html>
